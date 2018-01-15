@@ -44,10 +44,10 @@
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
-            "program": "${workspaceRoot}/bin/rspec",
+            "program": "${workspaceRoot}/hub/bin/bin/rspec",
             "args": [
                 "-I",
-                "${workspaceRoot}",
+                "${workspaceRoot}/hub/spec:${workspaceRoot}/hub/lib",
                 "${file}"
             ]
         },

@@ -1,6 +1,6 @@
 require "hub/Device"
 module Elro
-    class Elro::Device < Hub::Device
+    class Elro::Device < Hub::BiStateDevice
         def initialize(name, houseCode, deviceId)
             super(name)
             @houseCode = houseCode

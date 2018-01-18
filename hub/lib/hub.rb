@@ -9,6 +9,7 @@ module Hub
       puts "hello hub"
       deviceManager = DeviceManagerMemory.new()
       deviceManager.addDevice(Elro::Device.new("Bar", BiStateDeviceStateOff, 29, 4))
+      deviceManager.addDevice(Elro::Device.new("Radio", BiStateDeviceStateOff, 29, 1))
 
       options = {}
       OptionParser.new do |opts|

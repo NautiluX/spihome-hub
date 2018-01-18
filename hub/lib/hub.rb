@@ -1,6 +1,7 @@
 require "hub/version"
 require "storageMemory/DeviceManagerMemory"
 require "elro/ElroDevice"
+require 'optparse'
 
 module Hub
   class Hub
@@ -8,13 +9,26 @@ module Hub
       puts "hello hub"
       deviceManager = DeviceManagerMemory.new()
       deviceManager.addDevice(Elro::Device.new("Bar", BiStateDeviceStateOff, 29, 4))
-      puts "x"
-      deviceManager.getDevice("Bar").turnOff()
-      puts "a"
-      deviceManager.getDevice("Bar").turnOn()
-      puts "b"
-      deviceManager.getDevice("Bar").turnOff()
-      puts "c"
+
+      options = {}
+      OptionParser.new do |opts|
+        opts.banner = "Usage: hub.rb [options]"
+      
+        opts.on("-d", "--device", "device name") do |d|
+          options[:device] = d
+        end
+        opts.on("-s", "--state", "specify state") do |s|
+          options[:state] = s
+        end
+      end.parse!
+
+      if deviceManager.hasDevice(options[:device]) then
+        if options[:state] == "on" then
+          deviceManager.getDevice(options[:device]).turnOn()
+        else
+          deviceManager.getDevice(options[:device]).turnOff()
+        end
+      end
     end
   end
 end

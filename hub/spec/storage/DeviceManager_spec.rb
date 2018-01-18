@@ -40,6 +40,15 @@ module Hub
                 expect(deviceManager.getDevice("ExampleDevice").getName()).to eq("ExampleDevice")
             end
         end
+        
+        describe "#hasDevice" do
+            it "return if device exists" do
+                deviceManager = described_class.new()
+                device = Device.new("ExampleDevice")
+                deviceManager.addDevice(device)
+                expect(deviceManager.hasDevice("ExampleDevice")).to eq(true)
+            end
+        end
     end
 
     RSpec.describe Hub::DeviceManagerMemory do

@@ -19,5 +19,9 @@ module Hub
         def getDevice(name)
             @devices.find {|device| device.getName() == name}
         end 
+
+        def hasDevice(name)
+            return getDevice(name) != nil
+        end
     end
 end

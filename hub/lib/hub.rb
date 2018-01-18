@@ -14,10 +14,10 @@ module Hub
       OptionParser.new do |opts|
         opts.banner = "Usage: hub.rb [options]"
       
-        opts.on("-d", "--device", "device name") do |d|
+        opts.on("-dDEVICE", "--device=DEVICE", "device name") do |d|
           options[:device] = d
         end
-        opts.on("-s", "--state", "specify state") do |s|
+        opts.on("-sDEVICE", "--state=DEVICE", "specify state") do |s|
           options[:state] = s
         end
       end.parse!

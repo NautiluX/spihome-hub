@@ -18,11 +18,13 @@ module Hub
 
         def turnOn()
             @state = BiStateDeviceStateOn
+            puts("turning on " + getName())
             propagateStateChanged()
         end
 
         def turnOff()
             @state = BiStateDeviceStateOff
+            puts("turning off " + getName())
             propagateStateChanged()
         end
 

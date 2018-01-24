@@ -31,7 +31,7 @@ module Elro
             end
             for i in 1..3 do
                 system(cmd)
-                sleep(5)
+                sleep(2)
             end
         end
     end

@@ -1,17 +1,12 @@
 require "hub/version"
-require "storageMemory/DeviceManagerMemory"
+require "storageYaml/DeviceManagerYaml"
 require "elro/ElroDevice"
 require 'optparse'
 
 module Hub
   class Hub
     def initialize()
-      puts "hello hub"
-      deviceManager = DeviceManagerMemory.new()
-      deviceManager.addDevice(Elro::Device.new("Bar", BiStateDeviceStateOff, 29, 4))
-      deviceManager.addDevice(Elro::Device.new("Radio", BiStateDeviceStateOff, 29, 1))
-      deviceManager.addDevice(Elro::Device.new("Baum", BiStateDeviceStateOff, 29, 3))
-      deviceManager.addDevice(Elro::Device.new("Lounge", BiStateDeviceStateOff, 29, 2))
+      deviceManager = DeviceManagerYaml.new("devices.yaml")
 
       options = {}
       OptionParser.new do |opts|
@@ -20,17 +15,26 @@ module Hub
         opts.on("-dDEVICE", "--device=DEVICE", "device name") do |d|
           options[:device] = d
         end
-        opts.on("-sDEVICE", "--state=DEVICE", "specify state") do |s|
-          options[:state] = s
+        opts.on("-aACTION", "-aACTION", "action to execute (init, list, on, off)") do |list|
+          options[:action] = list
         end
       end.parse!
 
-      if deviceManager.hasDevice(options[:device]) then
-        if options[:state] == "on" then
+      case options[:action]
+      when "init"
+        deviceManager.clear()
+        deviceManager.addDevice(Elro::Device.new("Bar", BiStateDeviceStateOff, 29, 4))
+        deviceManager.addDevice(Elro::Device.new("Radio", BiStateDeviceStateOff, 29, 1))
+        deviceManager.addDevice(Elro::Device.new("Baum", BiStateDeviceStateOff, 29, 3))
+        deviceManager.addDevice(Elro::Device.new("Lounge", BiStateDeviceStateOff, 29, 2))
+      when "list"
+        puts deviceManager.listDeviceNames()
+      when "on"
+        if deviceManager.hasDevice(options[:device]) then
           deviceManager.getDevice(options[:device]).turnOn()
-        else
-          deviceManager.getDevice(options[:device]).turnOff()
         end
+      when "off"
+        deviceManager.getDevice(options[:device]).turnOff()
       end
     end
   end

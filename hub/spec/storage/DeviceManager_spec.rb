@@ -1,5 +1,6 @@
 require "spec_helper"
 require "storageMemory/DeviceManagerMemory"
+require "storageYaml/DeviceManagerYaml"
 require "hub/Device"
 
 module Hub
@@ -10,6 +11,7 @@ module Hub
                 deviceManager = described_class.new()
                 deviceManager.addDevice(device)
                 expect(deviceManager.getNumDevices).to eq(1)
+                deviceManager.clear()
             end
 
             it "doesn't allow duplicate devices" do
@@ -18,6 +20,7 @@ module Hub
                 deviceManager = described_class.new()
                 deviceManager.addDevice(device)
                 expect{deviceManager.addDevice(device2)}.to throw_symbol(:DuplicateDevice)
+                deviceManager.clear()
             end
         end
 
@@ -29,6 +32,7 @@ module Hub
                     deviceManager.addDevice(device)
                 end
                 expect(deviceManager.getNumDevices).to eq(5)
+                deviceManager.clear()
             end
         end
 
@@ -38,6 +42,7 @@ module Hub
                 device = Device.new("ExampleDevice")
                 deviceManager.addDevice(device)
                 expect(deviceManager.getDevice("ExampleDevice").getName()).to eq("ExampleDevice")
+                deviceManager.clear()
             end
         end
         
@@ -47,11 +52,39 @@ module Hub
                 device = Device.new("ExampleDevice")
                 deviceManager.addDevice(device)
                 expect(deviceManager.hasDevice("ExampleDevice")).to eq(true)
+                deviceManager.clear()
+            end
+        end
+
+        describe "#listDeviceNames" do
+            it "lists the existing devices" do
+                deviceManager = described_class.new()
+                deviceManager.addDevice(Device.new("ExampleDevice1"))
+                deviceManager.addDevice(Device.new("ExampleDevice2"))
+                expect(deviceManager.listDeviceNames()).to eq("ExampleDevice1\nExampleDevice2\n")
+                deviceManager.clear()
+            end
+        end
+
+        describe "#clear" do
+            it "clear all devices" do
+                deviceManager = described_class.new()
+                deviceManager.addDevice(Device.new("ExampleDevice1"))
+                deviceManager.addDevice(Device.new("ExampleDevice2"))
+                expect(deviceManager.getDevice("ExampleDevice1")).not_to eq(nil)
+                expect(deviceManager.getDevice("ExampleDevice2")).not_to eq(nil)
+                deviceManager.clear()
+                expect(deviceManager.getDevice("ExampleDevice1")).to eq(nil)
+                expect(deviceManager.getDevice("ExampleDevice2")).to eq(nil)
             end
         end
     end
 
     RSpec.describe Hub::DeviceManagerMemory do
+        it_behaves_like "a device manager"
+    end
+
+    RSpec.describe Hub::DeviceManagerYaml do
         it_behaves_like "a device manager"
     end
 end

@@ -23,7 +23,6 @@ module Elro
         end
 
         def onStateChanged(state)
-            puts "new change"
             cmd = "./sendElro -i " + @device.getDeviceId().to_s + " -u " + @device.getHouseCode().to_s + " "
             if state == Hub::BiStateDeviceStateOn then
                 cmd += "-t"

@@ -23,5 +23,17 @@ module Hub
         def hasDevice(name)
             return getDevice(name) != nil
         end
+
+        def clear()
+            @devices.clear()
+        end
+
+        def listDeviceNames()
+            result = ""
+            @devices.each do |device|
+                result += device.getName() + "\n"
+            end
+            return result
+        end
     end
 end

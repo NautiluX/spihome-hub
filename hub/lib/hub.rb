@@ -34,7 +34,8 @@ module Hub
           deviceManager.getDevice(options[:device]).turnOn()
         end
       when "off"
-        deviceManager.getDevice(options[:device]).turnOff()
+        if deviceManager.hasDevice(options[:device]) then
+          deviceManager.getDevice(options[:device]).turnOff()
       end
     end
   end

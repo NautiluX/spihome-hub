@@ -1,10 +1,11 @@
 require "hub/version"
 require "storageYaml/DeviceManagerYaml"
 require "elro/ElroDevice"
+require "hub/ActionIvoker"
 require 'optparse'
 
 module Hub
-  class Hub
+  class CLI
     def initialize()
       deviceManager = DeviceManagerYaml.new("devices.yaml")
 
@@ -20,6 +21,8 @@ module Hub
         end
       end.parse!
 
+      actionInvoker inv = ActionInvoker.new(deviceManager)
+
       case options[:action]
       when "init"
         deviceManager.clear()
@@ -32,6 +35,8 @@ module Hub
       when "on"
         if deviceManager.hasDevice(options[:device]) then
           deviceManager.getDevice(options[:device]).turnOn()
+        else
+          raise "Device does not exist: " + options[:device]
         end
       when "off"
         if deviceManager.hasDevice(options[:device]) then
@@ -42,4 +47,4 @@ module Hub
   end
 end
 
-Hub::Hub.new()
+Hub::CLI.new()

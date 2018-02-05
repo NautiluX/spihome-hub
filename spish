@@ -1,3 +1,4 @@
 #!/bin/bash
 
-ruby -I hub/lib hub/lib/cli.rb $@
+alias sendElro ${BASH_SOURCE[0]}/ext/radio/sendElro
+ruby -I ${BASH_SOURCE[0]}/hub/lib ${BASH_SOURCE[0]}/hub/lib/cli.rb $@

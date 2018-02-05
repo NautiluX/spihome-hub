@@ -1,3 +1,6 @@
+require "hub/Device"
+require "hub/Error"
+
 module Hub
     class DeviceManagerMemory
         def initialize
@@ -5,7 +8,7 @@ module Hub
         end
 
         def addDevice(device)
-            if getDevice(device.getName()) == nil then
+            if !hasDevice(device.getName()) then
                 @devices.push(device)
             else
                 throw :DuplicateDevice
@@ -17,11 +20,16 @@ module Hub
         end 
 
         def getDevice(name)
-            @devices.find {|device| device.getName() == name}
+            if hasDevice(name) then
+                @devices.find {|device| device.getName() == name}
+            else
+                raise DeviceDoesNotExistError.new(name)
+            end
         end 
 
         def hasDevice(name)
-            return getDevice(name) != nil
+            res = @devices.any?{|device| device.getName() == name}
+            return res
         end
 
         def clear()
@@ -34,6 +42,15 @@ module Hub
                 result += device.getName() + "\n"
             end
             return result
+        end
+
+        def turnOnDevice(name)
+            device = getDevice(name)
+            if device.respond_to?(:turnOn) then
+                device.turnOn
+            else
+                raise DeviceOperationNotSupportedError.new(name, "turn on")
+            end
         end
     end
 end

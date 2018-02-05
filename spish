@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ruby -I hub/lib hub/lib/cli.rb $@

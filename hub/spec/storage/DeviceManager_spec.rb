@@ -2,6 +2,7 @@ require "spec_helper"
 require "storageMemory/DeviceManagerMemory"
 require "storageYaml/DeviceManagerYaml"
 require "hub/Device"
+require "hub/BiStateDevice"
 
 module Hub
     RSpec.shared_examples "a device manager" do
@@ -74,8 +75,21 @@ module Hub
                 expect(deviceManager.getDevice("ExampleDevice1")).not_to eq(nil)
                 expect(deviceManager.getDevice("ExampleDevice2")).not_to eq(nil)
                 deviceManager.clear()
-                expect(deviceManager.getDevice("ExampleDevice1")).to eq(nil)
-                expect(deviceManager.getDevice("ExampleDevice2")).to eq(nil)
+                expect(deviceManager.hasDevice("ExampleDevice1")).to eq(false)
+                expect(deviceManager.hasDevice("ExampleDevice2")).to eq(false)
+            end
+        end
+
+        describe "#turnOnDevice" do
+            it "turns on the given device" do
+                deviceManager = described_class.new()
+                ex1 = BiStateDevice.new("ExampleDevice1", BiStateDeviceStateOff, double())
+                ex2 = BiStateDevice.new("ExampleDevice2", BiStateDeviceStateOff, double())
+                deviceManager.addDevice(ex1)
+                deviceManager.addDevice(ex2)
+                deviceManager.turnOnDevice("ExampleDevice1")
+                expect(ex1.getState()).to eq(BiStateDeviceStateOn)
+                expect(ex2.getState()).to eq(BiStateDeviceStateOff)
             end
         end
     end

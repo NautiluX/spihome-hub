@@ -4,7 +4,7 @@ hub to manage 433 mhz devices using raspberry pi
 # Setup
 ## Hardware
 Wire 433 MHz sender to Raspberry Pi as follows:
-* VCC to +5V or more
+* VCC to 5V
 * GND to Ground
 * DATA to WiringPi Pin 0 (GPIO0)
 

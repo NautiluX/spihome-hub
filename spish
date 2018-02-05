@@ -1,4 +1,4 @@
 #!/bin/bash
 this_dir=$(dirname $0)
-alias sendElro=${this_dir}/ext/radio/sendElro
+export PATH=${this_dir}/ext/radio/:${PATH}
 ruby -I ${this_dir}/hub/lib ${this_dir}/hub/lib/cli.rb $@

@@ -30,7 +30,7 @@ module Elro
                 cmd += "-f"
             end
             for i in 1..3 do
-                system(cmd)
+                puts `cmd`
                 sleep(2)
             end
         end

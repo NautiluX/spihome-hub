@@ -1,5 +1,5 @@
 require "hub/BiStateDevice"
-
+require 'open3'
 module Elro
     class Elro::Device < Hub::BiStateDevice
         def initialize(name, currentState, houseCode, deviceId)
@@ -30,7 +30,9 @@ module Elro
                 cmd += "-f"
             end
             for i in 1..3 do
-                puts `cmd`
+                stdout, stderr, status = Open3.capture3(cmd)
+                puts stdout
+                puts stderr
                 sleep(2)
             end
         end

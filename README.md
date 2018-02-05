@@ -8,6 +8,7 @@ hub to manage 433 mhz devices using raspberry pi
 cd ext/radio
 make
 cd ../../
+chown root ext/radio/sendElro
 chmod +s ext/radio/sendElro
 ```
 

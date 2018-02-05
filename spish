@@ -1,4 +1,4 @@
 #!/bin/bash
-
-alias sendElro ${BASH_SOURCE[0]}/ext/radio/sendElro
-ruby -I ${BASH_SOURCE[0]}/hub/lib ${BASH_SOURCE[0]}/hub/lib/cli.rb $@
+this_dir=$(dirname $0)
+alias sendElro=${this_dir}/ext/radio/sendElro
+ruby -I ${this_dir}/hub/lib ${this_dir}/hub/lib/cli.rb $@
